@@ -5,8 +5,9 @@ services:
     rubyVersion: 3.2.2
     plan: free
     branch: main
-    autoDeploy: true
+    autoDeployTrigger: commit
     buildCommand: "./bin/render-build.sh"
+    preDeployCommand: "bundle exec rails db:migrate db:seed"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
       - key: RAILS_ENV

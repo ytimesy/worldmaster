@@ -29,6 +29,7 @@ The `render.yaml` file defines:
 - Web service (worldmaster) with build/start commands
 - Automatic deploys from the `main` branch
 - `DATABASE_URL` injection from the Render Postgres database
+- Pre-deploy database migration and seed commands
 - Environment variables
 
 ## Manual Deployment Steps (if Blueprint doesn't work)
@@ -53,6 +54,7 @@ Go to https://render.com and sign up/sign in.
    - Branch: `main`
    - Auto-Deploy: `Yes`
    - Build Command: `./bin/render-build.sh`
+   - Pre-Deploy Command: `bundle exec rails db:migrate db:seed`
    - Start Command: `bundle exec puma -C config/puma.rb`
 
 ### 4. Set Environment Variables
