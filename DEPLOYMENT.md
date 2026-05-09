@@ -27,6 +27,7 @@ Render supports Blueprint deployment using `render.yaml`. This allows automatic 
 The `render.yaml` file defines:
 - PostgreSQL database (worldmaster-db)
 - Web service (worldmaster) with build/start commands
+- Automatic deploys from the `main` branch
 - Environment variables
 
 ## Manual Deployment Steps (if Blueprint doesn't work)
@@ -48,6 +49,8 @@ Go to https://render.com and sign up/sign in.
 4. Configure:
    - Name: `worldmaster`
    - Runtime: `Ruby`
+   - Branch: `main`
+   - Auto-Deploy: `Yes`
    - Build Command: `./bin/render-build.sh`
    - Start Command: `bundle exec puma -C config/puma.rb`
 
@@ -82,6 +85,7 @@ With custom domain: `https://ops.com`
 
 ## Updates
 Push changes to GitHub main branch to auto-deploy.
+If automatic deployment does not start after a push, check the web service's Settings page and make sure Auto-Deploy is enabled for the `main` branch.
 
 ## Free Tier Limits
 - 750 hours/month

@@ -3,6 +3,8 @@ services:
     name: worldmaster
     runtime: ruby
     rubyVersion: 3.2.2
+    branch: main
+    autoDeploy: true
     buildCommand: "./bin/render-build.sh"
     startCommand: "bundle exec puma -C config/puma.rb"
     envVars:
