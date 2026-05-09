@@ -1,145 +1,73 @@
-# AgoraFlow Deployment Guide
+# AgoraFlow Deployment Guide (Render)
 
 ## Overview
-AgoraFlow is deployed on Google Cloud Platform using Cloud Run for the application and Cloud SQL for the database.
+AgoraFlow is deployed on Render using free PostgreSQL and web services.
 
 ## Prerequisites
-- Google Cloud Project with billing enabled
-- Domain `ops.com` registered and configured
-- GitHub repository with CI/CD pipeline
+- Render account (https://render.com)
+- GitHub repository: https://github.com/ytimesy/worldmaster
+- Domain `ops.com` (optional for custom domain)
 
-## GCP Services Used
-- Cloud Run: Serverless container deployment
-- Cloud SQL: PostgreSQL database
-- Cloud Storage: File storage for Active Storage
-- Cloud DNS: Domain management
-- Secret Manager: Environment variables and secrets
-
-## Environment Variables Required
-Set these in GitHub Secrets or GCP Secret Manager:
-
-### Database
-- `DATABASE_URL`: PostgreSQL connection string for Cloud SQL
-
-### Google Cloud
-- `GCP_PROJECT_ID`: Google Cloud Project ID
-- `GCP_SA_KEY`: Base64 encoded service account key JSON
-- `GCS_BUCKET`: Cloud Storage bucket name
-- `GCS_CREDENTIALS_JSON`: Base64 encoded GCS service account credentials
-
-### Rails
-- `RAILS_MASTER_KEY`: Rails master key for credentials
-- `SECRET_KEY_BASE`: Rails secret key base
-
-### Custom Domain
-- `CUSTOM_DOMAIN`: Domain name (ops.com)
+## Render Services Used
+- Web Service: Ruby on Rails application
+- PostgreSQL: Database (free tier)
+- Custom Domain: ops.com (if configured)
 
 ## Deployment Steps
 
-### 1. Create GCP Project
-```bash
-gcloud projects create your-project-id
-gcloud config set project your-project-id
-```
+### 1. Create Render Account
+Go to https://render.com and sign up/sign in.
 
-### 2. Enable Required APIs
-```bash
-gcloud services enable run.googleapis.com
-gcloud services enable sqladmin.googleapis.com
-gcloud services enable storage.googleapis.com
-gcloud services enable dns.googleapis.com
-```
+### 2. Create PostgreSQL Database
+1. Click "New" → "PostgreSQL"
+2. Name: `worldmaster-db`
+3. Database: `worldmaster_production`
+4. Click "Create Database"
+5. Note the connection string (DATABASE_URL)
 
-### 3. Create Cloud SQL Instance
-```bash
-gcloud sql instances create worldmaster-db \
-  --database-version=POSTGRES_15 \
-  --region=asia-northeast1 \
-  --tier=db-f1-micro
-```
+### 3. Create Web Service
+1. Click "New" → "Web Service"
+2. Connect your GitHub account
+3. Select repository: `ytimesy/worldmaster`
+4. Configure:
+   - Name: `worldmaster`
+   - Runtime: `Ruby`
+   - Build Command: `./bin/render-build.sh`
+   - Start Command: `bundle exec puma -C config/puma.rb`
 
-### 4. Create Database
-```bash
-gcloud sql databases create worldmaster_production \
-  --instance=worldmaster-db
-```
+### 4. Set Environment Variables
+In the web service settings, add:
 
-### 5. Create Cloud Storage Bucket
-```bash
-gsutil mb -p your-project-id gs://worldmaster-storage
-```
+- `RAILS_ENV`: `production`
+- `SECRET_KEY_BASE`: Generate with `bundle exec rails secret`
+- `RAILS_MASTER_KEY`: Copy from `config/master.key`
+- `DATABASE_URL`: From PostgreSQL service (auto-populated)
 
-### 6. Create Service Account
-```bash
-gcloud iam service-accounts create worldmaster-sa \
-  --description="Service account for AgoraFlow" \
-  --display-name="AgoraFlow Service Account"
-```
+### 5. Deploy
+Click "Create Web Service" to deploy.
 
-### 7. Grant Permissions
-```bash
-gcloud projects add-iam-policy-binding your-project-id \
-  --member="serviceAccount:worldmaster-sa@your-project-id.iam.gserviceaccount.com" \
-  --role="roles/cloudsql.client"
+### 6. Custom Domain (ops.com)
+1. In web service dashboard, go to "Settings" → "Custom Domains"
+2. Add domain: `ops.com`
+3. Update DNS records as instructed:
+   - Type: CNAME
+   - Name: @
+   - Value: [provided by Render]
 
-gcloud projects add-iam-policy-binding your-project-id \
-  --member="serviceAccount:worldmaster-sa@your-project-id.iam.gserviceaccount.com" \
-  --role="roles/storage.objectAdmin"
-```
+## Default URL
+After deployment, your app will be available at:
+`https://worldmaster.onrender.com`
 
-### 8. Create Service Account Key
-```bash
-gcloud iam service-accounts keys create key.json \
-  --iam-account=worldmaster-sa@your-project-id.iam.gserviceaccount.com
-```
-
-### 9. Configure Domain (ops.com)
-```bash
-# Create Cloud DNS zone
-gcloud dns managed-zones create ops-com-zone \
-  --dns-name=ops.com. \
-  --description="DNS zone for ops.com"
-
-# Get nameservers
-gcloud dns managed-zones describe ops-com-zone --format="value(nameServers)"
-```
-
-### 10. Update Domain Registrar
-Update your domain registrar (ops.com) with the nameservers from step 9.
-
-### 11. Deploy Application
-Use the deploy script:
-```bash
-./bin/deploy-site
-```
-
-Or manually:
-```bash
-gcloud run deploy worldmaster \
-  --source . \
-  --platform managed \
-  --region asia-northeast1 \
-  --allow-unauthenticated \
-  --set-env-vars RAILS_ENV=production \
-  --port 3000
-```
-
-### 12. Map Custom Domain
-```bash
-gcloud run domain-mappings create \
-  --service worldmaster \
-  --domain ops.com \
-  --region asia-northeast1
-```
+With custom domain: `https://ops.com`
 
 ## Monitoring
-- Cloud Run logs: `gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=worldmaster"`
-- Database monitoring: GCP Console > SQL
-- Storage monitoring: GCP Console > Storage
+- Render Dashboard: View logs and metrics
+- Database: PostgreSQL service in Render
 
-## Backup
-- Database: Configure automated backups in Cloud SQL
-- Files: Cloud Storage has built-in versioning
+## Updates
+Push changes to GitHub main branch to auto-deploy.
 
-## Scaling
-Cloud Run automatically scales based on traffic. Configure min/max instances as needed.
+## Free Tier Limits
+- 750 hours/month
+- 512 MB RAM
+- 1 GB storage

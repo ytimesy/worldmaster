@@ -14,12 +14,10 @@ local:
 #   region: us-east-1
 #   bucket: your_own_bucket-<%= Rails.env %>
 
-# Google Cloud Storage configuration for production
-google:
-  service: GCS
-  project: <%= ENV['GCP_PROJECT_ID'] %>
-  credentials: <%= ENV['GCS_CREDENTIALS_JSON'] ? Base64.decode64(ENV['GCS_CREDENTIALS_JSON']) : nil %>
-  bucket: <%= ENV['GCS_BUCKET'] %>
+# Local storage for Render (free tier)
+production:
+  service: Disk
+  root: <%= Rails.root.join("storage") %>
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:
