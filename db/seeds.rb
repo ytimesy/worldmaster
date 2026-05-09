@@ -27,11 +27,11 @@ user = User.find_or_create_by!(email: 'user@ops.com') do |u|
 end
 
 # Create sample tags
-tags = ['technology', 'policy', 'development', 'agriculture', 'innovation']
+tags = [ 'technology', 'policy', 'development', 'agriculture', 'innovation' ]
 tags.each do |tag_name|
-  Tag.find_or_create_by!(name: tag_name) do |t|
-    t.slug = tag_name.parameterize
-  end
+  tag = Tag.find_or_initialize_by(slug: tag_name.parameterize)
+  tag.name = tag_name
+  tag.save!
 end
 
 # Create sample project
