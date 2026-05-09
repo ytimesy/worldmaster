@@ -1,5 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
+  before_action :require_login, only: %i[ index edit update destroy ]
+  before_action :require_admin, only: %i[ index destroy ]
+  before_action :require_self_or_admin, only: %i[ edit update ]
 
   # GET /users or /users.json
   def index
@@ -25,7 +28,8 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        format.html { redirect_to @user, notice: "User was successfully created." }
+        session[:user_id] = @user.id
+        format.html { redirect_to @user, notice: "アカウントを作成しました。" }
         format.json { render :show, status: :created, location: @user }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -65,6 +69,18 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :password_digest, :display_name, :username, :bio, :website_url, :avatar_url, :role)
+      permitted = %i[email password password_confirmation display_name username bio website_url avatar_url]
+      permitted << :role if current_user&.role == "admin"
+      params.require(:user).permit(permitted)
+    end
+
+    def require_admin
+      redirect_to root_path, alert: "管理者権限が必要です" unless current_user&.role == "admin"
+    end
+
+    def require_self_or_admin
+      return if current_user == @user || current_user&.role == "admin"
+
+      redirect_to root_path, alert: "この操作は許可されていません"
     end
 end

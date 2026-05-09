@@ -6,6 +6,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get index" do
+    log_in_as(@user)
     get users_url
     assert_response :success
   end
@@ -17,7 +18,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should create user" do
     assert_difference("User.count") do
-      post users_url, params: { user: { avatar_url: @user.avatar_url, bio: @user.bio, display_name: @user.display_name, email: @user.email, password_digest: @user.password_digest, role: @user.role, username: @user.username, website_url: @user.website_url } }
+      post users_url, params: { user: { avatar_url: "https://example.com/new.png", bio: "New bio", display_name: "New User", email: "new@example.com", password: "password", password_confirmation: "password", username: "new_user", website_url: "https://example.com/new" } }
     end
 
     assert_redirected_to user_url(User.last)
@@ -29,20 +30,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get edit" do
+    log_in_as(@user)
     get edit_user_url(@user)
     assert_response :success
   end
 
   test "should update user" do
-    patch user_url(@user), params: { user: { avatar_url: @user.avatar_url, bio: @user.bio, display_name: @user.display_name, email: @user.email, password_digest: @user.password_digest, role: @user.role, username: @user.username, website_url: @user.website_url } }
+    log_in_as(@user)
+    patch user_url(@user), params: { user: { avatar_url: @user.avatar_url, bio: "Updated bio", display_name: @user.display_name, email: @user.email, username: @user.username, website_url: @user.website_url } }
     assert_redirected_to user_url(@user)
   end
 
-  test "should destroy user" do
-    assert_difference("User.count", -1) do
-      delete user_url(@user)
+  test "should not expose user destroy route" do
+    log_in_as(@user)
+
+    assert_no_difference("User.count") do
+      delete user_url(users(:two))
     end
 
-    assert_redirected_to users_url
+    assert_response :not_found
   end
 end

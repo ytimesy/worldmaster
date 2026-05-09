@@ -1,7 +1,7 @@
-<%= form_with(model: post) do |form| %>
+<%= form_with(model: post, class: "form-card") do |form| %>
   <% if post.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
+    <div class="form-errors">
+      <h2>入力内容を確認してください</h2>
 
       <ul>
         <% post.errors.each do |error| %>
@@ -11,62 +11,58 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :user_id, style: "display: block" %>
-    <%= form.text_field :user_id %>
-  </div>
-
-  <div>
-    <%= form.label :project_id, style: "display: block" %>
-    <%= form.text_field :project_id %>
-  </div>
-
-  <div>
-    <%= form.label :policy_proposal_id, style: "display: block" %>
-    <%= form.text_field :policy_proposal_id %>
-  </div>
-
-  <div>
-    <%= form.label :parent_post_id, style: "display: block" %>
-    <%= form.text_field :parent_post_id %>
-  </div>
-
-  <div>
-    <%= form.label :post_type, style: "display: block" %>
-    <%= form.text_field :post_type %>
-  </div>
-
-  <div>
-    <%= form.label :title, style: "display: block" %>
+  <div class="form-group">
+    <%= form.label :title, "タイトル" %>
     <%= form.text_field :title %>
   </div>
 
-  <div>
-    <%= form.label :body, style: "display: block" %>
-    <%= form.text_area :body %>
+  <div class="form-group">
+    <%= form.label :body, "本文" %>
+    <%= form.text_area :body, rows: 10, required: true %>
   </div>
 
-  <div>
-    <%= form.label :visibility, style: "display: block" %>
-    <%= form.text_field :visibility %>
+  <div class="form-row">
+    <div class="form-group">
+      <%= form.label :post_type, "投稿タイプ" %>
+      <%= form.select :post_type, Post::POST_TYPES.map { |type| [type.humanize, type] } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :visibility, "公開範囲" %>
+      <%= form.select :visibility, Post::VISIBILITY_STATES.map { |state| [state.humanize, state] } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :status, "ステータス" %>
+      <%= form.select :status, Post::STATUS_STATES.map { |state| [state.humanize, state] } %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :status, style: "display: block" %>
-    <%= form.text_field :status %>
+  <div class="form-row">
+    <div class="form-group">
+      <%= form.label :project_id, "プロジェクト" %>
+      <%= form.collection_select :project_id, Project.order(:title), :id, :title, { include_blank: "紐づけなし" } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :policy_proposal_id, "政策提案" %>
+      <%= form.collection_select :policy_proposal_id, PolicyProposal.order(:title), :id, :title, { include_blank: "紐づけなし" } %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :published_at, style: "display: block" %>
-    <%= form.datetime_field :published_at %>
+  <div class="form-row">
+    <div class="form-group">
+      <%= form.label :parent_post_id, "親投稿" %>
+      <%= form.collection_select :parent_post_id, Post.where(user: current_user).order(created_at: :desc), :id, :title, { include_blank: "なし" } %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :scheduled_at, "予約日時" %>
+      <%= form.datetime_field :scheduled_at %>
+    </div>
   </div>
 
-  <div>
-    <%= form.label :scheduled_at, style: "display: block" %>
-    <%= form.datetime_field :scheduled_at %>
-  </div>
-
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit post.new_record? ? "投稿する" : "更新する", class: "button primary" %>
   </div>
 <% end %>

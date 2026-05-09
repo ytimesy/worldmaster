@@ -1,16 +1,30 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, "タイムライン" %>
 
-<% content_for :title, "Posts" %>
-
-<h1>Posts</h1>
-
-<div id="posts">
-  <% @posts.each do |post| %>
-    <%= render post %>
-    <p>
-      <%= link_to "Show this post", post %>
-    </p>
+<div class="page-heading">
+  <div>
+    <h1>タイムライン</h1>
+    <p>公開された短文、スレッド、プロジェクト更新、政策提案ログを時系列で表示します。</p>
+  </div>
+  <% if logged_in? %>
+    <%= link_to "新規投稿", new_post_path, class: "button primary" %>
+  <% else %>
+    <%= link_to "ログインして投稿", login_path, class: "button primary" %>
   <% end %>
 </div>
 
-<%= link_to "New post", new_post_path %>
+<%= form_with url: posts_path, method: :get, class: "filters", local: true do |form| %>
+  <%= form.search_field :q, value: params[:q], placeholder: "投稿を検索" %>
+  <%= form.select :post_type, options_for_select([["すべての種類", ""]] + @post_types.map { |type| [type.humanize, type] }, params[:post_type]) %>
+  <%= form.select :tag, options_for_select([["すべてのタグ", ""]] + @tags.map { |tag| [tag.name, tag.slug] }, params[:tag]) %>
+  <%= form.submit "絞り込む", class: "button secondary" %>
+<% end %>
+
+<div id="posts" class="content-list">
+  <% if @posts.any? %>
+    <% @posts.each do |post| %>
+      <%= render post %>
+    <% end %>
+  <% else %>
+    <p class="empty-state">表示できる公開投稿がまだありません。</p>
+  <% end %>
+</div>

@@ -3,33 +3,33 @@
 one:
   owner: one
   related_project: one
-  title: MyString
-  slug: MyString
-  summary: MyText
+  title: Public Policy
+  slug: public-policy
+  summary: Public policy summary
   background: MyText
   problem: MyText
-  proposal: MyText
+  proposal: Public policy proposal
   target_users: MyText
   system_outline: MyText
   expected_effect: MyText
   risks: MyText
   pilot_plan: MyText
-  status: MyString
-  visibility: MyString
+  status: public
+  visibility: public
 
 two:
   owner: two
   related_project: two
-  title: MyString
-  slug: MyString
-  summary: MyText
+  title: Draft Policy
+  slug: draft-policy
+  summary: Draft policy summary
   background: MyText
   problem: MyText
-  proposal: MyText
+  proposal: Draft policy proposal
   target_users: MyText
   system_outline: MyText
   expected_effect: MyText
   risks: MyText
   pilot_plan: MyText
-  status: MyString
-  visibility: MyString
+  status: draft
+  visibility: private

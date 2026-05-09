@@ -2,24 +2,24 @@
 
 one:
   owner: one
-  title: MyString
-  slug: MyString
-  summary: MyText
+  title: AgoraFlow
+  slug: agoraflow
+  summary: Public project summary
   description: MyText
-  status: MyString
-  visibility: MyString
-  demo_url: MyString
-  github_url: MyString
-  cover_image_url: MyString
+  status: active
+  visibility: public
+  demo_url: https://example.com/demo
+  github_url: https://github.com/example/agoraflow
+  cover_image_url: https://example.com/cover.png
 
 two:
   owner: two
-  title: MyString
-  slug: MyString
-  summary: MyText
+  title: Private Project
+  slug: private-project
+  summary: Private project summary
   description: MyText
-  status: MyString
-  visibility: MyString
-  demo_url: MyString
-  github_url: MyString
-  cover_image_url: MyString
+  status: building
+  visibility: private
+  demo_url: https://example.com/private-demo
+  github_url: https://github.com/example/private
+  cover_image_url: https://example.com/private-cover.png

@@ -1,11 +1,10 @@
-<% content_for :title, "New post" %>
+<% content_for :title, "新規投稿" %>
 
-<h1>New post</h1>
+<div class="page-heading">
+  <div>
+    <h1>新規投稿</h1>
+    <p>短文、スレッド、プロジェクト更新、政策提案ログを公開できます。</p>
+  </div>
+</div>
 
 <%= render "form", post: @post %>
-
-<br>
-
-<div>
-  <%= link_to "Back to posts", posts_path %>
-</div>

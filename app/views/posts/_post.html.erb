@@ -1,57 +1,36 @@
-<div id="<%= dom_id post %>">
-  <p>
-    <strong>User:</strong>
-    <%= post.user_id %>
-  </p>
+<article id="<%= dom_id post %>" class="post-card">
+  <header class="post-header">
+    <div>
+      <p class="meta">
+        <%= post.user.display_name %> / @<%= post.user.username %>
+        <span><%= l(post.published_at || post.created_at, format: :short) %></span>
+      </p>
+      <% if post.title.present? %>
+        <h2><%= link_to post.title, post_path(post) %></h2>
+      <% end %>
+    </div>
+    <div class="badge-row">
+      <span class="badge"><%= post.post_type %></span>
+      <span class="badge muted"><%= post.visibility %></span>
+    </div>
+  </header>
 
-  <p>
-    <strong>Project:</strong>
-    <%= post.project_id %>
-  </p>
+  <div class="post-body"><%= simple_format(post.body) %></div>
 
-  <p>
-    <strong>Policy proposal:</strong>
-    <%= post.policy_proposal_id %>
-  </p>
+  <% if post.tags.any? %>
+    <div class="tag-list">
+      <% post.tags.each do |tag| %>
+        <%= link_to "##{tag.name}", posts_path(tag: tag.slug), class: "tag" %>
+      <% end %>
+    </div>
+  <% end %>
 
-  <p>
-    <strong>Parent post:</strong>
-    <%= post.parent_post_id %>
-  </p>
-
-  <p>
-    <strong>Post type:</strong>
-    <%= post.post_type %>
-  </p>
-
-  <p>
-    <strong>Title:</strong>
-    <%= post.title %>
-  </p>
-
-  <p>
-    <strong>Body:</strong>
-    <%= post.body %>
-  </p>
-
-  <p>
-    <strong>Visibility:</strong>
-    <%= post.visibility %>
-  </p>
-
-  <p>
-    <strong>Status:</strong>
-    <%= post.status %>
-  </p>
-
-  <p>
-    <strong>Published at:</strong>
-    <%= post.published_at %>
-  </p>
-
-  <p>
-    <strong>Scheduled at:</strong>
-    <%= post.scheduled_at %>
-  </p>
-
-</div>
+  <footer class="post-links">
+    <% if post.project %>
+      <%= link_to post.project.title, project_path(post.project) %>
+    <% end %>
+    <% if post.policy_proposal %>
+      <%= link_to post.policy_proposal.title, policy_proposal_path(post.policy_proposal) %>
+    <% end %>
+  </footer>
+</article>

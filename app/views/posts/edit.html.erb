@@ -1,12 +1,10 @@
-<% content_for :title, "Editing post" %>
+<% content_for :title, "投稿編集" %>
 
-<h1>Editing post</h1>
+<div class="page-heading">
+  <div>
+    <h1>投稿編集</h1>
+    <p>投稿タイプ、公開範囲、紐づけ先を更新できます。</p>
+  </div>
+</div>
 
 <%= render "form", post: @post %>
-
-<br>
-
-<div>
-  <%= link_to "Show this post", @post %> |
-  <%= link_to "Back to posts", posts_path %>
-</div>

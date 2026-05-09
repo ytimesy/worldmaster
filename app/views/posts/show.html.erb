@@ -1,10 +1,11 @@
-<p style="color: green"><%= notice %></p>
+<% content_for :title, @post.title.presence || "投稿詳細" %>
 
 <%= render @post %>
 
-<div>
-  <%= link_to "Edit this post", edit_post_path(@post) %> |
-  <%= link_to "Back to posts", posts_path %>
-
-  <%= button_to "Destroy this post", @post, method: :delete %>
+<div class="action-row">
+  <%= link_to "タイムラインへ戻る", posts_path, class: "button secondary" %>
+  <% if @post.editable_by?(current_user) %>
+    <%= link_to "編集", edit_post_path(@post), class: "button secondary" %>
+    <%= button_to "削除", @post, method: :delete, class: "button danger", form: { data: { turbo_confirm: "この投稿を削除しますか？" } } %>
+  <% end %>
 </div>

@@ -1,7 +1,7 @@
-<%= form_with(model: user) do |form| %>
+<%= form_with(model: user, class: "form-card") do |form| %>
   <% if user.errors.any? %>
-    <div style="color: red">
-      <h2><%= pluralize(user.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <div class="form-errors">
+      <h2>入力内容を確認してください</h2>
 
       <ul>
         <% user.errors.each do |error| %>
@@ -11,47 +11,54 @@
     </div>
   <% end %>
 
-  <div>
-    <%= form.label :email, style: "display: block" %>
-    <%= form.text_field :email %>
+  <div class="form-group">
+    <%= form.label :display_name, "表示名" %>
+    <%= form.text_field :display_name, required: true %>
   </div>
 
-  <div>
-    <%= form.label :password_digest, style: "display: block" %>
-    <%= form.text_field :password_digest %>
+  <div class="form-group">
+    <%= form.label :username, "ユーザーID" %>
+    <%= form.text_field :username, required: true %>
   </div>
 
-  <div>
-    <%= form.label :display_name, style: "display: block" %>
-    <%= form.text_field :display_name %>
+  <div class="form-group">
+    <%= form.label :email, "メールアドレス" %>
+    <%= form.email_field :email, required: true %>
   </div>
 
-  <div>
-    <%= form.label :username, style: "display: block" %>
-    <%= form.text_field :username %>
+  <div class="form-group">
+    <%= form.label :password, "パスワード" %>
+    <%= form.password_field :password, autocomplete: "new-password", required: user.new_record? %>
   </div>
 
-  <div>
-    <%= form.label :bio, style: "display: block" %>
+  <div class="form-group">
+    <%= form.label :password_confirmation, "パスワード確認" %>
+    <%= form.password_field :password_confirmation, autocomplete: "new-password", required: user.new_record? %>
+  </div>
+
+  <div class="form-group">
+    <%= form.label :bio, "自己紹介" %>
     <%= form.text_area :bio %>
   </div>
 
-  <div>
-    <%= form.label :website_url, style: "display: block" %>
-    <%= form.text_field :website_url %>
+  <div class="form-group">
+    <%= form.label :website_url, "Webサイト" %>
+    <%= form.url_field :website_url %>
   </div>
 
-  <div>
-    <%= form.label :avatar_url, style: "display: block" %>
-    <%= form.text_field :avatar_url %>
+  <div class="form-group">
+    <%= form.label :avatar_url, "アバターURL" %>
+    <%= form.url_field :avatar_url %>
   </div>
 
-  <div>
-    <%= form.label :role, style: "display: block" %>
-    <%= form.text_field :role %>
-  </div>
+  <% if current_user&.role == "admin" %>
+    <div class="form-group">
+      <%= form.label :role, "ロール" %>
+      <%= form.select :role, User::ROLES %>
+    </div>
+  <% end %>
 
-  <div>
-    <%= form.submit %>
+  <div class="form-actions">
+    <%= form.submit user.new_record? ? "登録する" : "更新する", class: "button primary" %>
   </div>
 <% end %>

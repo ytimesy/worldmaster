@@ -4,12 +4,11 @@ one:
   user: one
   project: one
   policy_proposal: one
-  parent_post: one
-  post_type: MyString
-  title: MyString
-  body: MyText
-  visibility: MyString
-  status: MyString
+  post_type: short_post
+  title: Public post
+  body: Public post body
+  visibility: public
+  status: published
   published_at: 2026-05-09 19:18:29
   scheduled_at: 2026-05-09 19:18:29
 
@@ -17,11 +16,10 @@ two:
   user: two
   project: two
   policy_proposal: two
-  parent_post: two
-  post_type: MyString
-  title: MyString
-  body: MyText
-  visibility: MyString
-  status: MyString
+  post_type: dev_log
+  title: Private draft
+  body: Private draft body
+  visibility: private
+  status: draft
   published_at: 2026-05-09 19:18:29
   scheduled_at: 2026-05-09 19:18:29
