@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @posting_queue_item %>
+
+<div>
+  <%= link_to "Edit this posting queue item", edit_posting_queue_item_path(@posting_queue_item) %> |
+  <%= link_to "Back to posting queue items", posting_queue_items_path %>
+
+  <%= button_to "Destroy this posting queue item", @posting_queue_item, method: :delete %>
+</div>

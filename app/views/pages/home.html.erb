@@ -1,0 +1,48 @@
+<div class="hero-card">
+  <h1>AgoraFlow</h1>
+  <p class="hero-copy">流れて消えない、発信と提案のための次世代SNS</p>
+  <p>短文投稿、スレッド、プロジェクト、政策提案、予約投稿を一つの場所で整理・公開できます。</p>
+  <div class="home-links">
+    <%= link_to "新しい投稿を見る", posts_path, class: "button primary" %>
+    <%= link_to "プロジェクトを見る", projects_path, class: "button secondary" %>
+  </div>
+</div>
+
+<section class="home-section">
+  <h2>注目プロジェクト</h2>
+  <div class="card-grid">
+    <% @featured_projects.each do |project| %>
+      <article class="card card-small">
+        <h3><%= link_to project.title, project_path(project) %></h3>
+        <p><%= project.summary.truncate(120) %></p>
+        <p class="meta"><%= project.status %> • <%= project.updated_at.to_date %></p>
+      </article>
+    <% end %>
+  </div>
+</section>
+
+<section class="home-section">
+  <h2>注目の政策提案</h2>
+  <div class="card-grid">
+    <% @featured_policies.each do |policy| %>
+      <article class="card card-small">
+        <h3><%= link_to policy.title, policy_proposal_path(policy) %></h3>
+        <p><%= policy.summary.truncate(120) %></p>
+        <p class="meta"><%= policy.status %> • <%= policy.updated_at.to_date %></p>
+      </article>
+    <% end %>
+  </div>
+</section>
+
+<section class="home-section">
+  <h2>最新公開投稿</h2>
+  <div class="card-list">
+    <% @recent_posts.each do |post| %>
+      <article class="card">
+        <h3><%= link_to post.title.presence || "投稿 ##{post.id}", post_path(post) %></h3>
+        <p><%= truncate(post.body, length: 200) %></p>
+        <p class="meta"><%= post.post_type %> • <%= post.published_at&.to_date || post.created_at.to_date %> • <%= post.user&.display_name %></p>
+      </article>
+    <% end %>
+  </div>
+</section>

@@ -1,0 +1,11 @@
+<% content_for :title, "New scheduled post" %>
+
+<h1>New scheduled post</h1>
+
+<%= render "form", scheduled_post: @scheduled_post %>
+
+<br>
+
+<div>
+  <%= link_to "Back to scheduled posts", scheduled_posts_path %>
+</div>

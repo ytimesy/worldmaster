@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= content_for(:title) || "AgoraFlow" %></title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= yield :head %>
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <header class="app-header">
+      <nav class="app-nav">
+        <div class="brand">
+          <a href="<%= root_path %>">AgoraFlow</a>
+        </div>
+        <ul>
+          <li><a href="<%= root_path %>">Home</a></li>
+          <li><a href="<%= posts_path %>">投稿</a></li>
+          <li><a href="<%= projects_path %>">プロジェクト</a></li>
+          <li><a href="<%= policy_proposals_path %>">政策提案</a></li>
+          <li><a href="<%= scheduled_posts_path %>">予約</a></li>
+        </ul>
+        <div class="auth-links">
+          <% if logged_in? %>
+            <span class="user-name"><%= current_user.display_name %></span>
+            <%= button_to "ログアウト", logout_path, method: :delete, class: "button logout" %>
+          <% else %>
+            <%= link_to "ログイン", login_path, class: "button login" %>
+            <%= link_to "新規登録", new_user_path, class: "button signup" %>
+          <% end %>
+        </div>
+      </nav>
+    </header>
+
+    <% if notice %>
+      <div class="flash notice"><%= notice %></div>
+    <% end %>
+    <% if alert %>
+      <div class="flash alert"><%= alert %></div>
+    <% end %>
+
+    <main class="app-main">
+      <%= yield %>
+    </main>
+  </body>
+</html>

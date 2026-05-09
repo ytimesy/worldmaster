@@ -1,0 +1,35 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  owner: one
+  related_project: one
+  title: MyString
+  slug: MyString
+  summary: MyText
+  background: MyText
+  problem: MyText
+  proposal: MyText
+  target_users: MyText
+  system_outline: MyText
+  expected_effect: MyText
+  risks: MyText
+  pilot_plan: MyText
+  status: MyString
+  visibility: MyString
+
+two:
+  owner: two
+  related_project: two
+  title: MyString
+  slug: MyString
+  summary: MyText
+  background: MyText
+  problem: MyText
+  proposal: MyText
+  target_users: MyText
+  system_outline: MyText
+  expected_effect: MyText
+  risks: MyText
+  pilot_plan: MyText
+  status: MyString
+  visibility: MyString

@@ -1,0 +1,12 @@
+<% content_for :title, "Editing policy proposal" %>
+
+<h1>Editing policy proposal</h1>
+
+<%= render "form", policy_proposal: @policy_proposal %>
+
+<br>
+
+<div>
+  <%= link_to "Show this policy proposal", @policy_proposal %> |
+  <%= link_to "Back to policy proposals", policy_proposals_path %>
+</div>

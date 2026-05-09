@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Posting queues" %>
+
+<h1>Posting queues</h1>
+
+<div id="posting_queues">
+  <% @posting_queues.each do |posting_queue| %>
+    <%= render posting_queue %>
+    <p>
+      <%= link_to "Show this posting queue", posting_queue %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New posting queue", new_posting_queue_path %>

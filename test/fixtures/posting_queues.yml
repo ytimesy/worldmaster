@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: one
+  title: MyString
+  interval_minutes: 1
+  start_at: 2026-05-09 19:18:32
+  next_run_at: 2026-05-09 19:18:32
+  status: MyString
+
+two:
+  user: two
+  title: MyString
+  interval_minutes: 1
+  start_at: 2026-05-09 19:18:32
+  next_run_at: 2026-05-09 19:18:32
+  status: MyString

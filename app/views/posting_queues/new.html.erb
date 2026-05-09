@@ -1,0 +1,11 @@
+<% content_for :title, "New posting queue" %>
+
+<h1>New posting queue</h1>
+
+<%= render "form", posting_queue: @posting_queue %>
+
+<br>
+
+<div>
+  <%= link_to "Back to posting queues", posting_queues_path %>
+</div>

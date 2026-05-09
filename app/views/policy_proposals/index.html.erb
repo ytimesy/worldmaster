@@ -1,0 +1,16 @@
+<p style="color: green"><%= notice %></p>
+
+<% content_for :title, "Policy proposals" %>
+
+<h1>Policy proposals</h1>
+
+<div id="policy_proposals">
+  <% @policy_proposals.each do |policy_proposal| %>
+    <%= render policy_proposal %>
+    <p>
+      <%= link_to "Show this policy proposal", policy_proposal %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New policy proposal", new_policy_proposal_path %>

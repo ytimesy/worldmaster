@@ -1,0 +1,92 @@
+<%= form_with(model: policy_proposal) do |form| %>
+  <% if policy_proposal.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(policy_proposal.errors.count, "error") %> prohibited this policy_proposal from being saved:</h2>
+
+      <ul>
+        <% policy_proposal.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :owner_id, style: "display: block" %>
+    <%= form.text_field :owner_id %>
+  </div>
+
+  <div>
+    <%= form.label :related_project_id, style: "display: block" %>
+    <%= form.text_field :related_project_id %>
+  </div>
+
+  <div>
+    <%= form.label :title, style: "display: block" %>
+    <%= form.text_field :title %>
+  </div>
+
+  <div>
+    <%= form.label :slug, style: "display: block" %>
+    <%= form.text_field :slug %>
+  </div>
+
+  <div>
+    <%= form.label :summary, style: "display: block" %>
+    <%= form.text_area :summary %>
+  </div>
+
+  <div>
+    <%= form.label :background, style: "display: block" %>
+    <%= form.text_area :background %>
+  </div>
+
+  <div>
+    <%= form.label :problem, style: "display: block" %>
+    <%= form.text_area :problem %>
+  </div>
+
+  <div>
+    <%= form.label :proposal, style: "display: block" %>
+    <%= form.text_area :proposal %>
+  </div>
+
+  <div>
+    <%= form.label :target_users, style: "display: block" %>
+    <%= form.text_area :target_users %>
+  </div>
+
+  <div>
+    <%= form.label :system_outline, style: "display: block" %>
+    <%= form.text_area :system_outline %>
+  </div>
+
+  <div>
+    <%= form.label :expected_effect, style: "display: block" %>
+    <%= form.text_area :expected_effect %>
+  </div>
+
+  <div>
+    <%= form.label :risks, style: "display: block" %>
+    <%= form.text_area :risks %>
+  </div>
+
+  <div>
+    <%= form.label :pilot_plan, style: "display: block" %>
+    <%= form.text_area :pilot_plan %>
+  </div>
+
+  <div>
+    <%= form.label :status, style: "display: block" %>
+    <%= form.text_field :status %>
+  </div>
+
+  <div>
+    <%= form.label :visibility, style: "display: block" %>
+    <%= form.text_field :visibility %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>

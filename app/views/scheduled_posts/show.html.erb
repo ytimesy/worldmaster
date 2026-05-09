@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @scheduled_post %>
+
+<div>
+  <%= link_to "Edit this scheduled post", edit_scheduled_post_path(@scheduled_post) %> |
+  <%= link_to "Back to scheduled posts", scheduled_posts_path %>
+
+  <%= button_to "Destroy this scheduled post", @scheduled_post, method: :delete %>
+</div>

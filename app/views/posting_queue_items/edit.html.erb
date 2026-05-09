@@ -1,0 +1,12 @@
+<% content_for :title, "Editing posting queue item" %>
+
+<h1>Editing posting queue item</h1>
+
+<%= render "form", posting_queue_item: @posting_queue_item %>
+
+<br>
+
+<div>
+  <%= link_to "Show this posting queue item", @posting_queue_item %> |
+  <%= link_to "Back to posting queue items", posting_queue_items_path %>
+</div>
