@@ -17,9 +17,9 @@ local:
 # Google Cloud Storage configuration for production
 google:
   service: GCS
-  project: <%= Rails.application.credentials.dig(:gcs, :project) %>
-  credentials: <%= Rails.application.credentials.dig(:gcs, :credentials_path) %>
-  bucket: <%= Rails.application.credentials.dig(:gcs, :bucket) %>
+  project: <%= ENV['GCP_PROJECT_ID'] %>
+  credentials: <%= ENV['GCS_CREDENTIALS_JSON'] ? Base64.decode64(ENV['GCS_CREDENTIALS_JSON']) : nil %>
+  bucket: <%= ENV['GCS_BUCKET'] %>
 
 # Remember not to checkin your GCS keyfile to a repository
 # google:

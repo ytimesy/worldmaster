@@ -50,6 +50,70 @@ jobs:
           ruby-version: .ruby-version
           bundler-cache: true
 
+      - name: Lint Ruby files
+        run: bundle exec rubocop --parallel
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: .ruby-version
+          bundler-cache: true
+
+      - name: Run tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432/rails_test
+        run: |
+          bundle exec rails db:setup
+          bundle exec rails test
+
+  deploy:
+    needs: [scan_ruby, scan_js, lint, test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Build and Deploy to Cloud Run
+        run: |
+          gcloud run deploy worldmaster \
+            --source . \
+            --platform managed \
+            --region asia-northeast1 \
+            --allow-unauthenticated \
+            --set-env-vars RAILS_ENV=production \
+            --set-env-vars RAILS_MASTER_KEY=${{ secrets.RAILS_MASTER_KEY }} \
+            --set-env-vars DATABASE_URL=${{ secrets.DATABASE_URL }} \
+            --set-env-vars GCP_PROJECT_ID=${{ secrets.GCP_PROJECT_ID }}
+
+
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 

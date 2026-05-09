@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: worldmaster_production
-  username: worldmaster
-  password: <%= ENV["WORLDMASTER_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  # For Cloud SQL PostgreSQL
+  # socket: "/cloudsql/<%= ENV['CLOUD_SQL_CONNECTION_NAME'] %>"
