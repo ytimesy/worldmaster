@@ -2,7 +2,7 @@ services:
   - type: web
     name: worldmaster
     runtime: ruby
-    rubyVersion: 3.2.2
+    rubyVersion: 3.3.9
     plan: free
     branch: main
     autoDeployTrigger: commit
