@@ -13,7 +13,23 @@ AgoraFlow is deployed on Render using free PostgreSQL and web services.
 - PostgreSQL: Database (free tier)
 - Custom Domain: ops.com (if configured)
 
-## Deployment Steps
+## Automated Deployment with Blueprint
+
+Render supports Blueprint deployment using `render.yaml`. This allows automatic service creation.
+
+### Steps:
+1. Go to https://render.com and sign in with GitHub
+2. Click "New" → "Blueprint"
+3. Connect your GitHub account and select repository `ytimesy/worldmaster`
+4. Select branch `main`
+5. Click "Apply" - this will create all services defined in `render.yaml`
+
+The `render.yaml` file defines:
+- PostgreSQL database (worldmaster-db)
+- Web service (worldmaster) with build/start commands
+- Environment variables
+
+## Manual Deployment Steps (if Blueprint doesn't work)
 
 ### 1. Create Render Account
 Go to https://render.com and sign up/sign in.
