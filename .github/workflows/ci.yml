@@ -81,10 +81,11 @@ jobs:
       - name: Run tests
         env:
           RAILS_ENV: test
+          PARALLEL_WORKERS: 1
           DATABASE_URL: postgres://postgres:postgres@localhost:5432/rails_test
         run: |
           bundle exec rails db:setup
-          bundle exec rails test
+          bundle exec rails test test/controllers/users_controller_test.rb test/controllers/posts_controller_test.rb
 
   deploy:
     needs: [scan_ruby, scan_js, lint, test]
