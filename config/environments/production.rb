@@ -97,12 +97,13 @@ Rails.application.configure do
 
   # Enable DNS rebinding protection and other `Host` header attacks.
   config.hosts = [
+    "worldmaster.onrender.com",
     "ops.com",
     "www.ops.com"
   ]
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
-  # Use Google Cloud Storage for Active Storage in production.
-  config.active_storage.service = :google
+  # Render free tier uses the disk service configured in config/storage.yml.
+  config.active_storage.service = :production
 end
