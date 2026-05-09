@@ -1,16 +1,16 @@
 Rails.application.routes.draw do
   root "pages#home"
 
-  resource :session, only: [:new, :create, :destroy]
+  resource :session, only: [ :new, :create, :destroy ]
   get "/login", to: "sessions#new", as: :login
   delete "/logout", to: "sessions#destroy", as: :logout
 
-  resources :users, except: [:destroy]
+  resources :users, except: [ :destroy ]
   resources :posts
   resources :projects
   resources :policy_proposals
-  resources :tags, only: [:index, :show]
-  resources :reports, only: [:index, :show, :create, :update]
+  resources :tags, only: [ :index, :show ]
+  resources :reports, only: [ :index, :show, :create, :update ]
   resources :scheduled_posts
   resources :posting_queues
   resources :posting_queue_items
