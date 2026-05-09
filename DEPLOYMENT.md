@@ -28,6 +28,7 @@ The `render.yaml` file defines:
 - PostgreSQL database (worldmaster-db)
 - Web service (worldmaster) with build/start commands
 - Automatic deploys from the `main` branch
+- `DATABASE_URL` injection from the Render Postgres database
 - Environment variables
 
 ## Manual Deployment Steps (if Blueprint doesn't work)
